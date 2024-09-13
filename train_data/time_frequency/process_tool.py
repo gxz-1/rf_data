@@ -6,7 +6,7 @@ from scipy.signal import spectrogram,get_window
 from scipy.interpolate import RectBivariateSpline
 import numpy as np
 
-
+random_create =True
 file_path="/disk/datasets/rf_data/origin/PCIE{}_simple.mat"
 save_train_path = '/disk/datasets/rf_data/train_data/time_frequency/train'
 save_test_path = '/disk/datasets/rf_data/train_data/time_frequency/val'
@@ -80,24 +80,32 @@ def convertDP(finallydata, savePath, device, snr):
 
 
 if __name__ == "__main__":
-    for l in range(4, 8):
-        originData = hdf5storage.loadmat(file_path.format(l))['data'] 
-        # 3 7划分数据集
-        rows=round(originData.shape[0]*0.7) 
-        print('row=',rows," columns=",originData.shape[1])
-        #1. 生成训练集
-        # splitData=originData[:rows]
-        # print("train shape :",splitData.shape)
-        # # 加入噪声
-        # snr=8
-        # trainData=splitData.copy()
-        # trainData=getwgn(trainData,snr)
-        # convertDP(trainData,save_train_path,l,snr)
-        #2. 生成测试集
-        splitData=originData[rows:]
-        print("test shape :",splitData.shape)
-        #加入5-10db噪声
-        for snr in range(-10,-1):
-            testData=splitData.copy()
-            testData=getwgn(testData,snr)
-            convertDP(testData,save_test_path,l,snr)
+    if random_create:
+        splitData=np.random.randn(400, 4096) + 1j * np.random.randn(400, 4096)
+        print("train shape :",splitData.shape)
+        snr=-1
+        splitData=splitData.copy()
+        splitData=getwgn(splitData,snr)
+        convertDP(splitData,save_train_path,-1,snr)
+    else:
+        for l in range(4, 8):
+            originData = hdf5storage.loadmat(file_path.format(l))['data'] 
+            # 3 7划分数据集
+            rows=round(originData.shape[0]*0.7) 
+            print('row=',rows," columns=",originData.shape[1])
+            #1. 生成训练集
+            splitData=originData[:rows]
+            print("train shape :",splitData.shape)
+            # 加入噪声
+            snr=8
+            trainData=splitData.copy()
+            trainData=getwgn(trainData,snr)
+            convertDP(trainData,save_train_path,l,snr)
+            #2. 生成测试集
+            # splitData=originData[rows:]
+            # print("test shape :",splitData.shape)
+            # #加入5-10db噪声
+            # for snr in range(-10,-1):
+            #     testData=splitData.copy()
+            #     testData=getwgn(testData,snr)
+            #     convertDP(testData,save_test_path,l,snr)

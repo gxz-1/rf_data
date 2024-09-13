@@ -5,7 +5,7 @@ import shutil
 source_path = '/disk/datasets/rf_data/train_data/time_frequency/train'
 
 # 定义设备类别
-devices = [4, 5, 6, 7]
+devices = [-1,4, 5, 6, 7]
 
 
 # 为每个设备创建一个子文件夹
@@ -22,7 +22,7 @@ for filename in os.listdir(source_path):
         continue
     # 检查文件是否包含设备编号
     for device in devices:
-        if f'device_{device}' in filename:
+        if f'device_{device}_' in filename:
             # 找到相应设备的文件并移动到对应子文件夹
             source_file = os.path.join(source_path, filename)
             destination_folder = os.path.join(source_path, f'device_{device}')

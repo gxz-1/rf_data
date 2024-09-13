@@ -22,7 +22,7 @@ for filename in os.listdir(source_path):
         continue
     # 检查文件是否包含设备编号
     for device in devices:
-        if f'device_{device}' in filename:
+        if f'device_{device}_' in filename:
             # 找到相应设备的文件并移动到对应子文件夹
             source_file = os.path.join(source_path, filename)
             destination_folder = os.path.join(source_path, f'device_{device}')
