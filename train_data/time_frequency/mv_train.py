@@ -5,7 +5,7 @@ import shutil
 source_path = '/disk/datasets/rf_data/train_data/time_frequency/train'
 
 # 定义设备类别
-devices = [-1,4, 5, 6, 7]
+devices = [4, 5, 6, 7]
 
 
 # 为每个设备创建一个子文件夹

@@ -61,8 +61,8 @@ def convertDP(finallydata, savePath, device, snr):
         window=使用 Hann 窗口
         
         Pxx: 时频图的功率谱密度矩阵。
-        freqs: 频率向量。
-        bins: 时间向量。
+        freqs: 频率向量。 （复信号）长度=窗长nperseg
+        bins: 时间向量。   长度由窗长nperseg和重叠长度noverlap决定
         '''
         # 裁剪至244*244
         # freqs=freqs[:244]
